@@ -42,7 +42,6 @@ SpineAgent/
 │   └── run_finetune_router.sh         # Router (fused T1+T2 via synthesizer)
 ├── report_generation/      # LLaVA-based Medical Report Agent
 │   └── llava/              # Adapted LLaVA with dual DINOv3 vision encoders
-├── experiments_eval/       # Evaluation scripts and metrics (TBD)
 ├── requirements.txt
 └── README.md
 ```
