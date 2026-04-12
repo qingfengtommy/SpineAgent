@@ -116,8 +116,6 @@ bash spinal_agent_finetune.sh   # Stage 2: Language decoder adaptation
 
 This project is trained on a large, de-identified clinical spine MRI cohort from the University of Washington Medical Center comprising 32,047 patients, 453,683 MRI series, and 13,441,191 slices. Due to patient privacy considerations and institutional regulations, the imaging data is not publicly available. For academic collaboration or data access inquiries, please contact the corresponding authors (nmcross@uw.edu, swang@cs.washington.edu).
 
-For external evaluation, we use the publicly available [RSNA 2024 Lumbar Spine Degenerative Classification](https://www.kaggle.com/competitions/rsna-2024-lumbarspine-degenerative-classification) dataset.
-
 
 ## Citation
 
