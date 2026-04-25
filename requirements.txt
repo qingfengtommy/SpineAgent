@@ -1,22 +1,22 @@
+# Requirements for downstream_tasks/ and model_alignment/
+# Run environment: conda activate dinov3
+# Then: pip install -r requirements.txt
+
+# Already present in dinov3 env (listed for documentation)
 torch>=2.1.0
 torchvision>=0.16.0
 numpy
 Pillow
 tqdm
-tensorboard
 omegaconf
 scikit-learn
 matplotlib
-transformers
-deepspeed
-flash-attn
-xformers
-einops
-timm
 ftfy
 regex
-peft
 scipy
 pandas
-pydicom
-opencv-python
+packaging
+
+# Install these on top of dinov3:
+tensorboard       # SummaryWriter used in finetune.py, train_router.py, train_clip.py
+transformers      # AutoModel/AutoTokenizer for BiomedBERT in model_alignment/train_clip.py

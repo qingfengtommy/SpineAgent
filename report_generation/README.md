@@ -23,4 +23,14 @@ Before open‑sourcing, you should:
 1. **Remove or anonymize all absolute paths** in the shell scripts and Python files.
 2. Replace them with example placeholders (e.g. `/path/to/images.json`, `/path/to/dinov3_checkpoint`) and document the expected formats.
 
+### Agent data file formats
 
+Scripts expect these paths (use placeholders like `/path/to/...` in the repo):
+
+| Argument | File | Format |
+|----------|------|--------|
+| `--region_specific_images_data_path` | `structured_image_index.json` | JSON: `{ "<patient_id>": { "t1": ["/abs/path/to/slice.png", ...], "t2": [...] }, ... }`. Patient ID is e.g. `acc_sha256`. Lists are full paths to T1/T2 slice images (e.g. region/segmentation crops). |
+| `--top_1_similar_case_report_data_path` | `retrieval_top_1.json` | JSON: `{ "<patient_id>": "<top1_similar_patient_id>", ... }`. Maps each case to the single most similar case used for report retrieval. |
+| `--condition_classification_data_path` | `predicted_labels.json` | JSON: `{ "<patient_id>": { "<condition_name>": 0 or 1, ... }, ... }`. Binary labels per condition (e.g. "Spinal Canal Stenosis", "Disc Herniation: Extrusion"). |
+
+All patient IDs must align with `acc_sha256` (or your chosen ID key) in the image and text data.

@@ -46,12 +46,33 @@ SpineAgent/
 └── README.md
 ```
 
-## Installation
+## Environment Setup
+
+This repository uses **separate conda environments** per pipeline stage due to incompatible PyTorch versions across components.
+
+| Module | Conda env | PyTorch |
+|--------|-----------|---------|
+| `pretraining/` | `dinov3` | 2.8.0 |
+| `model_alignment/` | `dinov3` | 2.8.0 |
+| `downstream_tasks/` | `dinov3` | 2.8.0 |
+| `report_generation/` | `llava` | 2.4.1+cu124 |
+
+### Setup for pretraining / model_alignment / downstream_tasks
 
 ```bash
-conda create -n spineagent python=3.10
-conda activate spineagent
-pip install -r requirements.txt
+conda activate dinov3
+pip install tensorboard transformers       # packages missing from base dinov3 env
+# For pretraining only (sparse attention):
+pip install xformers
+```
+
+Full dependency list: `requirements.txt` (downstream + model_alignment), `pretraining/requirements.txt`.
+
+### Setup for report generation
+
+```bash
+conda activate llava
+# llava env is already fully configured
 ```
 
 ## Training Pipeline
@@ -130,3 +151,8 @@ This project is trained on a large, de-identified clinical spine MRI cohort from
 ## License
 
 See [LICENSE](LICENSE) for details.
+
+## Acknowledgements
+
+- [DINOv3](https://github.com/facebookresearch/dinov3) — self-supervised vision transformer framework used for T1/T2 encoder pretraining
+- [LLaVA](https://github.com/haotian-liu/LLaVA) — multimodal language model framework adapted for the Medical Report Agent

@@ -1,0 +1,19 @@
+# Requirements for pretraining/
+# Run environment: conda activate dinov3
+# Then: pip install -r pretraining/requirements.txt
+
+# Already present in dinov3 env (listed for documentation)
+torch>=2.1.0
+torchvision>=0.16.0
+numpy
+omegaconf
+
+# Install these on top of dinov3:
+xformers          # Used in dinov3/layers/sparse_linear.py (SparseLinear attention ops)
+
+# Custom CUDA extension (required only for segmentation head training, NOT for encoder pretraining):
+# MultiScaleDeformableAttention — must be compiled from source:
+#   cd dinov3/eval/segmentation/models/utils/ops
+#   python setup.py build install
+# Without it, inference still works (try/except in ms_deform_attn.py), but backward pass
+# through deformable attention will raise RuntimeError.
