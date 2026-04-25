@@ -453,7 +453,7 @@ def evaluate(
     )
 
     print(f"Loss: {epoch_loss:.4f} | Accuracy: {epoch_acc:.4f}")
-    print(f"F1: {f1:.4f} | AUROC: {auroc:.4f if auroc else 0:.4f} | AUPRC: {auprc:.4f}")
+    print(f"F1: {f1:.4f} | AUROC: {(auroc if auroc else 0):.4f} | AUPRC: {auprc:.4f}")
 
     if num_classes == 2:
         fpr, tpr, _ = roc_curve(all_labels, all_probs)

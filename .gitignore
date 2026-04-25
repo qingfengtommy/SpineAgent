@@ -1,3 +1,4 @@
 **/checkpoints/
 **/spinal_log/
 **/wandb/
+tests/

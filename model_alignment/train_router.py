@@ -187,10 +187,11 @@ def main(args):
     text_embed_dim = text_encoder.config.hidden_size
 
     # ---- CLIP model (projections + poolers) ----
-    vision_proj = LinearProjectionHead(in_features=args.vision_embed_dim, out_features=args.proj_dim)
+    # AttentionPooler outputs pooler_hidden_dim; LinearProjectionHead must match.
+    vision_proj = LinearProjectionHead(in_features=args.pooler_hidden_dim, out_features=args.proj_dim)
     text_proj = TextProjectionHead(in_features=text_embed_dim, out_features=args.proj_dim)
-    t1_pooler = AttentionPooler(input_dim=args.vision_embed_dim)
-    t2_pooler = AttentionPooler(input_dim=args.vision_embed_dim)
+    t1_pooler = AttentionPooler(input_dim=args.vision_embed_dim, hidden_dim=args.pooler_hidden_dim)
+    t2_pooler = AttentionPooler(input_dim=args.vision_embed_dim, hidden_dim=args.pooler_hidden_dim)
 
     clip_model = CLIPModel(
         vision_proj=vision_proj, text_proj=text_proj,
@@ -299,6 +300,8 @@ if __name__ == "__main__":
     parser.add_argument("--text_encoder_name", type=str,
                         default="microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract")
     parser.add_argument("--vision_embed_dim", type=int, default=1024)
+    parser.add_argument("--pooler_hidden_dim", type=int, default=256,
+                        help="AttentionPooler hidden/output dim; must match LinearProjectionHead in_features")
     parser.add_argument("--proj_dim", type=int, default=1024)
     parser.add_argument("--temperature", type=float, default=0.07)
     parser.add_argument("--epochs", type=int, default=5)

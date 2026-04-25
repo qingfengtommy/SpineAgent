@@ -130,14 +130,15 @@ def main(args):
     text_embed_dim = text_encoder.config.hidden_size
 
     logger.info("Building CLIP alignment model...")
+    # AttentionPooler outputs pooler_hidden_dim; LinearProjectionHead must match.
     vision_proj = LinearProjectionHead(
-        in_features=args.vision_embed_dim, out_features=args.proj_dim
+        in_features=args.pooler_hidden_dim, out_features=args.proj_dim
     )
     text_proj = TextProjectionHead(
         in_features=text_embed_dim, out_features=args.proj_dim
     )
-    t1_pooler = AttentionPooler(input_dim=args.vision_embed_dim)
-    t2_pooler = AttentionPooler(input_dim=args.vision_embed_dim)
+    t1_pooler = AttentionPooler(input_dim=args.vision_embed_dim, hidden_dim=args.pooler_hidden_dim)
+    t2_pooler = AttentionPooler(input_dim=args.vision_embed_dim, hidden_dim=args.pooler_hidden_dim)
 
     clip_model = CLIPModel(
         vision_proj=vision_proj,
@@ -251,6 +252,8 @@ if __name__ == "__main__":
                         default="microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract")
     parser.add_argument("--vision_embed_dim", type=int, default=1024,
                         help="DINOv3 ViT-L embedding dimension")
+    parser.add_argument("--pooler_hidden_dim", type=int, default=256,
+                        help="AttentionPooler hidden/output dim; must match LinearProjectionHead in_features")
     parser.add_argument("--proj_dim", type=int, default=1024,
                         help="Shared projection space dimension")
     parser.add_argument("--temperature", type=float, default=0.07)
